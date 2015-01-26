@@ -1,7 +1,7 @@
 library(doParallel)
 registerDoParallel(cores = 9)
 
-crncy = c("AUDUSD", "EURUSD", "GBPUSD", "NZDUSD", "USDCAD", "USDCHF", "USDJPY", "USDNOK", "USDSEK")
+crncy = list("AUDUSD", "EURUSD", "GBPUSD", "NZDUSD", "USDCAD", "USDCHF", "USDJPY", "USDNOK", "USDSEK")
 
 processData = function(crncy){
   library(highfrequency)
@@ -42,7 +42,9 @@ processData = function(crncy){
 #   xtsVolm = rKernelCov(xtsFX)
 }
 library(doParallel)
-foreach(i=1:8) %dopar% processData(crncy[i])
+library(plyr)
+# llply(crncy, processData, .parallel = TRUE)
+foreach(i=1:length(crncy)) %dopar% processData(crncy[i])
 
 # 
 # for (i=1:9) {
