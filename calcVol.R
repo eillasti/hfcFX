@@ -17,5 +17,7 @@ calcRVcrncy = function(crncy){
   xtsRV = xts(Values, Dates)
   filename_xtsRV = paste("/data/", crncy, "_RV", ".RData", sep = "")
   save(xtsRV, filename_xtsRV)
+  
 }
 
+l_ply(crncy, calcRVcrncy)
