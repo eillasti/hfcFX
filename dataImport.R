@@ -1,16 +1,13 @@
-
-library(highfrequency)
-library(data.table)
-library(xts)
-library(rugarch)
 library(doParallel)
-cl = makeCluster(8)
-registerDoParallel(cl)
+registerDoParallel(cores = 9)
 
-crncy = c(#"AUDUSD", 
-          "EURUSD", "GBPUSD", "NZDUSD", "USDCAD", "USDCHF", "USDJPY", "USDNOK", "USDSEK")
+crncy = c("AUDUSD", "EURUSD", "GBPUSD", "NZDUSD", "USDCAD", "USDCHF", "USDJPY", "USDNOK", "USDSEK")
 
 processData = function(crncy){
+  library(highfrequency)
+  library(data.table)
+  library(xts)
+  library(rugarch)
   filename = paste("/data/", crncy, ".csv", sep = "")
   colClasses = c("character", "numeric", "numeric", "numeric", "numeric")
   dtRaw = fread(filename, sep = ",", header = FALSE, colClasses = colClasses)
