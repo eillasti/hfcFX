@@ -2,9 +2,8 @@ library(highfrequency)
 library(xts)
 library(doParallel)
 library(plyr)
-registerDoParallel(cores = 15)
-crncy = list(#"AUDUSD", 
-  "EURUSD", "GBPUSD", "NZDUSD", "USDCAD", "USDCHF", "USDJPY", "USDNOK", "USDSEK")
+registerDoParallel(cores = 16)
+crncy = list("AUDUSD", "EURUSD", "GBPUSD", "NZDUSD", "USDCAD", "USDCHF", "USDJPY", "USDNOK", "USDSEK")
 # crncy = "AUDUSD"
 calcRV = function(x){
   RV = rKernelCov(x, kernel.type = "Epanechnikov", kernel.param=50, align.period = 5, makeReturns = TRUE)
