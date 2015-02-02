@@ -2,9 +2,14 @@ library(highfrequency)
 library(xts)
 library(doParallel)
 library(plyr)
-registerDoParallel(cores = 16)
-crncy = list("AUDUSD", "EURUSD", "GBPUSD", "NZDUSD", "USDCAD", "USDCHF", "USDJPY", "USDNOK", "USDSEK")
-# crncy = "GBPUSD"
+registerDoParallel(cores = 32)
+crncy = list(
+#   "AUDUSD", "EURUSD", "GBPUSD", 
+             "NZDUSD", "USDCAD"
+#              , "USDCHF", 
+#              "USDJPY", "USDNOK", "USDSEK"
+             )
+# crncy = "NZDUSD"
 toSeconds1 = function(x) {
   aggregatePrice(x, on = "seconds", k=1, marketopen = "00:00:01",
                  marketclose = "23:59:59")
@@ -21,7 +26,7 @@ calcRVcrncy = function(crncy){
   xtsFX_split = llply(xtsFX_split1, 
                       toSeconds1,
                       .parallel = TRUE,
-                      .paropts = list(".packages" = "highfrequency"))
+                      .paropts = list(.packages = "highfrequency"))
   if (any(unlist(llply(xtsFX_split, is.null)))) stop(paste("Something went wrong when processing", crncy))
   
   rm(xtsFX_split1); gc();
